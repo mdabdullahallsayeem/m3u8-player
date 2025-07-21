@@ -1,46 +1,51 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>M3U8 Player Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ultimate M3U8 Player</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 20px; background: #f9f9f9; }
-    input, select, button { padding: 10px; margin: 10px; width: 80%; max-width: 500px; }
-    iframe { width: 90%; height: 400px; border: none; margin-top: 20px; }
-    textarea { width: 90%; height: 60px; margin-top: 10px; }
+    body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 20px; text-align: center; }
+    h1 { color: #333; }
+    .player-container { margin-top: 20px; }
+    iframe { width: 100%; height: 500px; border: none; }
+    .form-group { margin-bottom: 15px; }
+    input, select, button { padding: 10px; font-size: 16px; width: 90%; max-width: 600px; }
+    .code-box { background: #eee; padding: 10px; margin-top: 20px; word-break: break-all; }
   </style>
 </head>
 <body>
-  <h2>M3U8 Ultimate Player Generator</h2>
-  <input type="text" id="url" placeholder="Enter your M3U8 or MP4 URL" />
-  <input type="text" id="logo" placeholder="Logo URL (optional)" />
-  <input type="number" id="logoWidth" placeholder="Logo Width (e.g. 50)" />
-  <input type="number" id="logoHeight" placeholder="Logo Height (e.g. 30)" />
-  <select id="logoPosition">
-    <option value="top-right">Top Right</option>
-    <option value="top-left">Top Left</option>
-    <option value="bottom-right">Bottom Right</option>
-    <option value="bottom-left">Bottom Left</option>
-  </select>
-  <button onclick="generate()">Generate Player</button>
-  <div id="result"></div>
+  <h1>Ultimate M3U8 Player Generator</h1>
+  <div class="form-group">
+    <input type="text" id="streamUrl" placeholder="Enter your M3U8/MP4 URL here" />
+  </div>
+  <div class="form-group">
+    <select id="playerType">
+      <option value="clappr.html">MP4/M3U8 - Clappr Player</option>
+      <option value="dplayer.html">M3U8 Only - DPlayer</option>
+      <option value="jwplayer.html">MP4/M3U8 - JWPlayer</option>
+      <option value="plyr.html">MP4/M3U8 - Plyr Player</option>
+      <option value="videojs.html">M3U8 Only - VideoJS Player</option>
+      <option value="iframe.html">Iframe - Iframe Player</option>
+      <option value="flowplayer.html">Flowplayer</option>
+      <option value="mediaelement.html">MediaElement</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <button onclick="generate()">Play Now</button>
+  </div>
+  <div class="player-container" id="playerFrame"></div>
+  <div class="code-box" id="embedCode"></div>
+
   <script>
     function generate() {
-      const url = encodeURIComponent(document.getElementById('url').value);
-      const logo = encodeURIComponent(document.getElementById('logo').value);
-      const width = document.getElementById('logoWidth').value;
-      const height = document.getElementById('logoHeight').value;
-      const position = document.getElementById('logoPosition').value;
-
-      const playerUrl = `player/clappr.html?url=${url}&logo=${logo}&logoWidth=${width}&logoHeight=${height}&logoPosition=${position}`;
-      const iframeCode = `<iframe src="${playerUrl}" width="100%" height="400" frameborder="0" allowfullscreen></iframe>`;
-
-      document.getElementById('result').innerHTML = `
-        <iframe src="${playerUrl}"></iframe>
-        <h3>Embed Code:</h3>
-        <textarea readonly>${iframeCode}</textarea>
-      `;
+      var url = document.getElementById("streamUrl").value;
+      var player = document.getElementById("playerType").value;
+      var fullUrl = player + "?url=" + encodeURIComponent(url);
+      document.getElementById("playerFrame").innerHTML = '<iframe src="' + fullUrl + '"></iframe>';
+      document.getElementById("embedCode").innerText =
+        '<iframe src="https://yourgithub.github.io/player/' + fullUrl + '" width="100%" height="500px" frameborder="0" allowfullscreen></iframe>';
     }
   </script>
 </body>
